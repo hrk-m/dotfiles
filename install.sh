@@ -22,4 +22,4 @@ fi
 # git clone dotfile
 cd ~/.
 git clone git@github.com:hrk-m/dotfiles.git
-cd dotfiles
+ cd dotfiles
