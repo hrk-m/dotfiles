@@ -16,3 +16,14 @@
         excludesfile = /Users/harukimiyagi/.gitignore_global
 [push]
         default = simple
+
+[alias]
+        aa = add -A
+        c = checkout
+        cb = checkout -b
+        cm = checkout master
+        cd = checkout develop
+        cs = checkout staging
+        co = commit -m
+        commit = commit -m
+
