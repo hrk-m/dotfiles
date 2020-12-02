@@ -1,2 +1,4 @@
 ## 初期設定
-sh install.sh
+```bash
+$ curl https://raw.githubusercontent.com/hrk-m/dotfiles/master/install.sh | sh
+```
