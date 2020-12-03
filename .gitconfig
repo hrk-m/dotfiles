@@ -19,11 +19,10 @@
 
 [alias]
         aa = add -A
-        c = checkout
-        cb = checkout -b
-        cm = checkout master
-        cd = checkout develop
-        cs = checkout staging
-        co = commit -m
+        co = checkout
+        cob = checkout -b
+        com = checkout master
+        cod = checkout develop
+        cos = checkout staging
+        cm = commit -m
         commit = commit -m
-
