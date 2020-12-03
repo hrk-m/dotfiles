@@ -1,0 +1,40 @@
+{
+  // 新規ファイルはUntitledでファイル作成
+  "workbench.startupEditor": "newUntitledFile",
+  // ミニマップの表示
+  "editor.minimap.enabled": false,
+  // タブ
+  "editor.tabSize": 2,
+  // 入力補完を表示する
+  "editor.quickSuggestions": true,
+  // 選択中の行を強調する
+  "editor.renderLineHighlight": "all",
+  // ウインドウ幅で折り返す
+  "editor.wordWrap": "on",
+  // 選択範囲の角を丸める
+  "editor.roundedSelection": false,
+  // オートインデント
+  "editor.autoIndent": "keep",
+  // インデントガイド(インデントに沿って縦線を表示)
+  "editor.renderIndentGuides": true,
+  // window zoom level 0
+  "window.zoomLevel": -1,
+  // 余分なホワイトスペースを削除
+  "files.trimTrailingWhitespace": true,
+  // ファイルの末尾は改行で終わらせる
+  "files.insertFinalNewline": true,
+  // パンくず
+  "breadcrumbs.enabled": true,
+  // 空白文字の表示
+  "editor.renderWhitespace": "all",
+  // ファイルのドラックアンドドロップの誤り警告
+  "explorer.confirmDragAndDrop": false,
+  // 削除の警告無視
+  "explorer.confirmDelete": false,
+  // rails ⌘ + クリックでクラスの定義元に移動
+  "ruby.intellisense": "rubyLocate",
+  // rubocop
+  "ruby.rubocop.onSave": true,
+  // Prettier (保存時にコードを整える)
+  "editor.formatOnSave": true
+}
