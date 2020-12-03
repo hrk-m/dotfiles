@@ -19,6 +19,11 @@ else
   echo '\nhomebrew already installed.'
 fi
 
+# Display hidden files / folders
+echo "Display hidden files / folders"
+defaults write com.apple.finder AppleShowAllFiles TRUE
+killall Finder
+
 # git clone dotfile
 cd ~/.
 git clone git@github.com:hrk-m/dotfiles.git
