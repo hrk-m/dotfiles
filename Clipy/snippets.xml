@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<folders>
+	<folder>
+		<title>Rails</title>
+		<snippets>
+			<snippet>
+				<title>pry gem</title>
+				<content>gem &apos;pry-rails&apos;
+  gem &apos;pry-byebug&apos;
+  gem &apos;pry-doc&apos;</content>
+			</snippet>
+			<snippet>
+				<title>credentials open(5系以上)</title>
+				<content>EDITOR=&quot;vim&quot; rails credentials:edit</content>
+			</snippet>
+			<snippet>
+				<title>Rubocop 警告コメントアウト</title>
+				<content># rubocop:disable</content>
+			</snippet>
+			<snippet>
+				<title>dump (json -&gt; yml)</title>
+				<content>ruby -ryaml -rjson -e &apos;puts YAML.dump(JSON.parse(STDIN.read))&apos; &lt; test.json &gt; sample.yaml</content>
+			</snippet>
+		</snippets>
+	</folder>
+	<folder>
+		<title>Docker</title>
+		<snippets>
+			<snippet>
+				<title>デバック</title>
+				<content>stdin_open: true
+    tty: true</content>
+			</snippet>
+		</snippets>
+	</folder>
+	<folder>
+		<title>Git</title>
+		<snippets>
+			<snippet>
+				<title>stash pop</title>
+				<content>git stash pop stash@{0}</content>
+			</snippet>
+			<snippet>
+				<title>stash clear</title>
+				<content>git stash clear</content>
+			</snippet>
+			<snippet>
+				<title>リモートブランチの削除</title>
+				<content>git push --delete origin branchname</content>
+			</snippet>
+		</snippets>
+	</folder>
+	<folder>
+		<title>JavaScript</title>
+		<snippets>
+			<snippet>
+				<title>class 調べる</title>
+				<content>Object.prototype.toString.call(aaa)</content>
+			</snippet>
+		</snippets>
+	</folder>
+</folders>
