@@ -18,14 +18,14 @@ if test ! $(which brew); then
 else
   echo '\nhomebrew already installed.'
 fi
-# Update Homebrew recipes
-brew update
-# Move Brewfile into place
-ln -fs $(pwd)/Brewfile ~/
-# Install all our dependencies with bundle (See Brewfile)
-brew bundle
-brew cleanup
-brew cask cleanup
+# # Update Homebrew recipes
+# brew update
+# # Move Brewfile into place
+# ln -fs $(pwd)/Brewfile ~/
+# # Install all our dependencies with bundle (See Brewfile)
+# brew bundle
+# brew cleanup
+# brew cask cleanup
 
 # Display hidden files / folders
 echo "Display hidden files / folders"
@@ -44,7 +44,8 @@ fisher add oh-my-fish/plugin-peco
 echo 'install ghq'
 fisher add decors/fish-ghq
 # ghq で管理するディレクトリの設定(src で管理)
-mkdir ~/src && git config --global ghq.root ~/src
+mkdir ~/src
+git config --global ghq.root ~/src
 
 # 切り替わらなければ、sudo vi /etc/shellsの末尾に /usr/local/bin/fish を追加
 echo 'Set default shell to fish'
