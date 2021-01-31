@@ -1,4 +1,3 @@
-
 # peco でコマンド履歴検索  ctr + r (検索履歴表示)
 function fish_user_key_bindings
   bind \cr 'peco_select_history (commandline -b)'
