@@ -2,15 +2,6 @@
 
 echo 'Setting up Mac...'
 
-# install xcode
-if [[ "$(xcode-select -p)" == "" ]]; then
-  echo '\nInstalling Xcode '
-  xcode-select --install
-  echo 'Done'
-else
-  echo '\nXcode already installed.'
-fi
-
 # install homebrew
 if test ! $(which brew); then
   echo 'install homebrew'
@@ -18,41 +9,40 @@ if test ! $(which brew); then
 else
   echo '\nhomebrew already installed.'
 fi
-# # Update Homebrew recipes
-# brew update
-# # Move Brewfile into place
-# ln -fs $(pwd)/Brewfile ~/
-# # Install all our dependencies with bundle (See Brewfile)
-# brew bundle
-# brew cleanup
-# brew cask cleanup
 
-# Display hidden files / folders
-echo "Display hidden files / folders"
-defaults write com.apple.finder AppleShowAllFiles TRUE
-killall Finder
+# Update Homebrew recipes
+brew update
 
-echo 'install fish shell'
-### fish, ghq, peco の設定 (https://qiita.com/naname/items/00d4c81a98c017b0fb43)
-# Install fisher(fisherman)
-curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-# Install oh-my-fish/plugin-peco
-echo 'install peco'
-fisher add oh-my-fish/plugin-peco
+# Install Packages
+brew install git
+brew install tig
 
-# Install decors/fish-ghq
-echo 'install ghq'
-fisher add decors/fish-ghq
-# ghq で管理するディレクトリの設定(src で管理)
-mkdir ~/src
-git config --global ghq.root ~/src
+brew cask install iterm2
+brew cask install alfred
+brew cask install spectacle
+brew cask install clipy
+brew cask install appcleaner
+brew cask install visual-studio-code
+brew cask install google-chrome
+brew cask install atom
+brew cask install slack
+brew cask install docker
+# brew cask install homebrew/cask-versions/sequel-pro-nightly
+# brew cask install ngrok
+# brew cask install recordit
+# brew cask install tunnelblick
+# brew cask install dropbox
+# brew cask install libreoffice
 
-# 切り替わらなければ、sudo vi /etc/shellsの末尾に /usr/local/bin/fish を追加
-echo 'Set default shell to fish'
-chsh -s $(which fish)
-source ~/.config/fish/config.fish # fish 設定反映 (ghq がsource で読み込まないと動作しない)
+brew cleanup
+brew cask cleanup
 
 # git clone dotfile
 mkdir ~/src/github.com/hrk-m
 cd ~/src/github.com/hrk-m
 git clone git@github.com:hrk-m/dotfiles.git
+
+# Display hidden files / folders
+echo "Display hidden files / folders"
+defaults write com.apple.finder AppleShowAllFiles TRUE
+killall Finder
