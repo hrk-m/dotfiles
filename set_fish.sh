@@ -9,11 +9,11 @@ echo 'install fish shell'
 curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 # Install oh-my-fish/plugin-peco
 echo 'install peco'
-fisher add oh-my-fish/plugin-peco
+fisher install oh-my-fish/plugin-peco
 
 # Install decors/fish-ghq
 echo 'install ghq'
-fisher add decors/fish-ghq
+fisher install decors/fish-ghq
 # ghq で管理するディレクトリの設定(src で管理)
 mkdir ~/src
 git config --global ghq.root ~/src
