@@ -16,6 +16,7 @@ brew update
 # Install Packages
 brew install git
 brew install tig
+brew install rbenv
 
 brew install --cask iterm2
 brew install --cask alfred
