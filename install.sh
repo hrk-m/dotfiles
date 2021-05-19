@@ -35,6 +35,7 @@ brew install --cask docker
 # brew install --cask dropbox
 # brew install --cask libreoffice
 # brew install --cask lastpass
+# brew install --cask 1password
 
 brew cleanup
 brew cask cleanup
