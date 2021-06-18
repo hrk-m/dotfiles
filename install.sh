@@ -17,6 +17,7 @@ brew update
 brew install git
 brew install tig
 brew install rbenv
+# brew install jq
 
 brew install --cask iterm2
 brew install --cask alfred
@@ -28,6 +29,7 @@ brew install --cask google-chrome
 brew install --cask atom
 brew install --cask slack
 brew install --cask docker
+brew install --cask deepl
 # brew install --cask homebrew/cask-versions/sequel-pro-nightly
 # brew install --cask ngrok
 # brew install --cask recordit
@@ -36,6 +38,9 @@ brew install --cask docker
 # brew install --cask libreoffice
 # brew install --cask lastpass
 # brew install --cask 1password
+# brew install --cask skitch
+# brew install --cask anki
+# brew install --cask insomnia
 
 brew cleanup
 brew cask cleanup
