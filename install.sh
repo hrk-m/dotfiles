@@ -17,20 +17,22 @@ brew update
 brew install git
 brew install tig
 brew install rbenv
-# brew install jq
-
+brew install jq
 brew install --cask iterm2
 brew install --cask alfred
+# 画面リサイズツール
 brew install --cask spectacle
 brew install --cask clipy
 brew install --cask appcleaner
-brew install --cask visual-studio-code
 brew install --cask google-chrome
+brew install --cask visual-studio-code
 brew install --cask atom
 brew install --cask slack
 brew install --cask docker
 brew install --cask deepl
 # brew install --cask homebrew/cask-versions/sequel-pro-nightly
+# MySQL・MariaDBに接続できるデータベースクライアントツール
+# brew install --cask tableplus
 # brew install --cask ngrok
 # brew install --cask recordit
 # brew install --cask tunnelblick
@@ -41,6 +43,15 @@ brew install --cask deepl
 # brew install --cask skitch
 # brew install --cask anki
 # brew install --cask insomnia
+# brew install --cask vivaldi
+# brew install --cask deckset
+# brew install --cask caffeine
+# ノイズキャンセリング
+# brew install --cask krisp
+# フォトショに似たアプリ
+# brew install --cask gimp
+# MacからWindowsへ文字化けしない圧縮ファイルを作成
+# brew install --cask macwinzipper
 
 brew cleanup
 brew cask cleanup
