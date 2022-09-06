@@ -1,5 +1,5 @@
 [ghq]
-        root = /Users/harukimiyagi/src
+        root = ~/src
 [user]
         name = Haruki Miyagi
         email = haruki.miyagi11@gmail.com
@@ -13,7 +13,7 @@
         ignorecase = false
         autocrlf = false
         precomposeunicode = true
-        excludesfile = /Users/harukimiyagi/.gitignore_global
+        excludesfile = ~/.gitignore_global
 [push]
         default = simple
 
