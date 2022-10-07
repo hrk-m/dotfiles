@@ -41,6 +41,7 @@ alias ginit "git commit -m 'initial commit' --allow-empty"
 alias gstash "git stash pop stash@{0}"
 alias m "git checkout master"
 alias mp "git checkout master && git pull"
+alias mmp "git checkout main && git pull"
 alias dp "git checkout develop && git pull"
 alias uncommit "git log -1 && git reset HEAD^1"
 alias amend 'git commit --amend'
@@ -52,6 +53,7 @@ alias t 'tig'
 # ディレクトリ確認
 alias ls 'ls -a'
 alias lp 'pwd && ls'
+alias code 'code .'
 
 # rails
 alias be 'bundle exec'
