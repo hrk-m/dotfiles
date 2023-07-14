@@ -2,9 +2,10 @@
 
 ## 手順
 
-1. macOS のソフトウェアアップデートをする
+1. 必要があれば、macOS のソフトウェアアップデートをする
 2. xcode のインストール
-3. 必要な環境とアプリをインストール
+3. brew をインストール
+  - brew bundle
 
 ```bash
 $ curl https://raw.githubusercontent.com/hrk-m/dotfiles/master/install.sh | sh
