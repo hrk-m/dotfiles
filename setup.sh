@@ -2,4 +2,4 @@
 USER=$(id -u)
 DOTFILES=$HOME/src/github.com/hrk-m/dotfiles
 
-mkdir -p "${HOME}"/{.ssh,.config}
+mkdir -p "${HOME}"/.ssh
