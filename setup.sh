@@ -9,7 +9,7 @@ echo "Set a shorter Delay until key repeat"
 defaults write -g InitialKeyRepeat -int 17
 
 echo "Dockを右に"
-defaults write com.apple.dock "orientation" -string "left" && killall Dock
+defaults write com.apple.dock "orientation" -string "right" && killall Dock
 
 echo "Finder 内の隠しファイルを表示する"
 defaults write com.apple.finder "AppleShowAllFiles" -bool "true" && killall Finder
