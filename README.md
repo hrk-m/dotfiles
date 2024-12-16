@@ -11,6 +11,7 @@
     - caps lock → control
 
 - システム設定
+  - 実行後再起動する必要あり
 
 ```bash
 $ curl https://raw.githubusercontent.com/hrk-m/dotfiles/master/macos/setup.sh | sh
