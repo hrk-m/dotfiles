@@ -8,6 +8,10 @@ fi
 defaults write com.apple.dock persistent-apps -array
 ## Dockのサイズ
 defaults write com.apple.dock "tilesize" -int "36"
+## Dockを右に
+defaults write com.apple.dock "orientation" -string "right"
+## 自動的に非表示にする。
+defaults write com.apple.dock autohide -bool true
 ## 最近起動したアプリを非表示
 defaults write com.apple.dock "show-recents" -bool "false"
 ## アプリをしまうときのアニメーション
