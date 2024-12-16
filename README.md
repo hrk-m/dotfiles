@@ -17,6 +17,9 @@
 $ curl https://raw.githubusercontent.com/hrk-m/dotfiles/master/macos/setup.sh | sh
 ```
 
+- zshにpeco + ghqを導入する
+  - https://qiita.com/ysk_1031/items/8cde9ce8b4d0870a129d
+
 - ドットファイルのシンボリング
 
 ```bash

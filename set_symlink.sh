@@ -17,12 +17,6 @@ echo 'vim 設定'
 ln -fs $(pwd)/vim/.vimrc ~/
 echo '#############################################################################################'
 
-# fish
-echo 'fish 設定'
-ln -fs $(pwd)/fish/config.fish ~/.config/fish/
-ln -fs $(pwd)/fish/functions/fish_prompt.fish ~/.config/fish/functions/
-echo '#############################################################################################'
-
 # VS Code
 echo "VS Code 設定"
 mkdir -p ~/Library/Application\ Support/Code/User/
