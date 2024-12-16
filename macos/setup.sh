@@ -18,6 +18,8 @@ defaults write com.apple.dock "show-recents" -bool "false"
 defaults write com.apple.dock "mineffect" -string "scale"
 ## 使用状況に基づいてデスクトップの順番を入れ替え
 defaults write com.apple.dock "mru-spaces" -bool "false"
+## Dock をリセット
+killall Dock
 
 # Screenshot
 ## 画像の影を無効化
@@ -43,6 +45,8 @@ defaults write com.apple.finder ShowPathbar -bool "true"
 defaults write com.apple.LaunchServices LSQuarantine -bool "false"
 ## ゴミ箱を空にするときの警告無効化
 defaults write com.apple.finder WarnOnEmptyTrash -bool "false"
+## Finder をリセット
+killall Finder
 
 # Feedback
 ## フィードバックを送信しない
