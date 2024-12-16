@@ -1,3 +1,8 @@
+if [ $(uname) != "Darwin" ] ; then
+	echo "Not MacOS!"
+	exit 0
+fi
+
 # Dock
 ## Dockからすべてのアプリを消す
 defaults write com.apple.dock persistent-apps -array
