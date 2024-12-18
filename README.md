@@ -39,3 +39,5 @@ $ sh set_symlink.sh
   - [Vscode version 確認](https://code.visualstudio.com/updates/v1_43)
 - iterm
   - [iterm(hotkey が効かない時)](https://www.smartbowwow.com/2018/11/mojaveiterm2hot-key.html)
+- HHKB(key 配置変更アプリ)
+  - https://happyhackingkb.com/jp/download/
