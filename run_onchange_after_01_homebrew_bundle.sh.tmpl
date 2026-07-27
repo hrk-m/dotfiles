@@ -8,6 +8,17 @@ set -eu
 # run_once_before で Homebrew インストール済み、PATH に追加
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# sudo を最初に1回だけ認証し、実行中はキャッシュ(既定5分)が切れないよう更新し続ける
+# (cask の pkg インストーラが sudo を使うたびに再入力を求められるのを防ぐ)
+sudo -v
+while true; do
+	sudo -n true
+	sleep 60
+	kill -0 "$$" 2>/dev/null || exit
+done &
+SUDO_KEEPALIVE_PID=$!
+trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
+
 brew bundle --file "$HOME/Brewfile"
 
 {{ end }}
