@@ -1,7 +1,6 @@
 {
   // 参考になるサイト
   // https://qiita.com/WGG_SH/items/82f83ba91ca0d7f5c8b7
-
   // 新規ファイルはUntitledでファイル作成
   "workbench.startupEditor": "newUntitledFile",
   // ミニマップの表示
@@ -9,7 +8,11 @@
   // タブ
   "editor.tabSize": 2,
   // 入力補完を表示する
-  "editor.quickSuggestions": true,
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on",
+    "other": "on"
+  },
   // 選択中の行を強調する
   "editor.renderLineHighlight": "all",
   // ウインドウ幅で折り返す
@@ -18,8 +21,6 @@
   "editor.roundedSelection": false,
   // オートインデント
   "editor.autoIndent": "keep",
-  // インデントガイド(インデントに沿って縦線を表示)
-  "editor.renderIndentGuides": true,
   // window zoom level 0
   "window.zoomLevel": -1,
   // 余分なホワイトスペースを削除
@@ -39,5 +40,9 @@
   // rubocop
   "ruby.rubocop.onSave": true,
   // Prettier (保存時にコードを整える)
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "terminal.integrated.env.osx": {
+    "Q_NEW_SESSION": "1"
+  },
+  "editor.guides.indentation": true
 }

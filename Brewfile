@@ -5,6 +5,7 @@ brew 'tig'
 brew 'jq'
 brew 'watch'
 brew 'tree'
+brew 'typos-cli'
 
 tap 'homebrew/cask'
 cask 'iterm2'
