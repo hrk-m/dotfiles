@@ -1,43 +1,56 @@
-## 初期設定
+# dotfiles
 
-## 手順
+macOS 用の dotfiles を [chezmoi](https://www.chezmoi.io/) で管理するリポジトリ。
 
-- macOS のソフトウェアアップデートをする
-- App Storeからxcode のインストール
-- brew をインストール
-  - https://chigusa-web.com/blog/homebrew/ を参考にインストール
-- Modifier Keys（US）
+`chezmoi apply` すると以下が自動で行われる:
+
+1. `run_once_before_00_install_homebrew.sh` — Homebrew 未インストールなら自動インストール(初回のみ)
+2. dotfiles をホームディレクトリへ配置(`Brewfile` → `~/Brewfile` など)
+3. `run_onchange_after_01_homebrew_bundle.sh` — `brew bundle` でパッケージをインストール(Brewfile 変更時のみ再実行)
+
+## 新しい Mac でのセットアップ
+
+```bash
+# chezmoi のインストールと init --apply を一発で実行
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply hrk-m
+```
+
+chezmoi インストール済みなら:
+
+```bash
+chezmoi init --apply hrk-m
+```
+
+## 日常の使い方
+
+```bash
+cd ~/src/github.com/hrk-m/dotfiles
+
+# 反映前に差分を確認(apply の前に必ず実行する)
+chezmoi diff --source .
+
+# 変更をホームディレクトリへ反映
+chezmoi apply --source .
+```
+
+Brewfile にパッケージを追加したら `chezmoi apply` で `brew bundle` が自動実行される。
+
+## 手動で行う初期設定
+
+- macOS のソフトウェアアップデート
+- Modifier Keys(US 配列): caps lock → control
   - https://support.apple.com/ja-jp/guide/mac-help/mchlp1011/mac
-    - caps lock → control
-
-- システム設定
-  - 実行後再起動する必要あり
-
-```bash
-$ curl https://raw.githubusercontent.com/hrk-m/dotfiles/master/macos/setup.sh | sh
-```
-
-- zshにpeco + ghqを導入する
-  - https://qiita.com/ysk_1031/items/8cde9ce8b4d0870a129d
-
-- ドットファイルのシンボリング
-
-```bash
-$ cd ~/src/github.com/hrk-m/dotfiles
-$ sh set_symlink.sh
-```
-
-- インストールしたアプリの設定
-
-- github
-  - [GitHub に SSH で接続する(docs)](https://docs.github.com/ja/github/authenticating-to-github/connecting-to-github-with-ssh)
-  - [GitHub で ssh 接続(Qiita)](https://qiita.com/shizuma/items/2b2f873a0034839e47ce)
+- GitHub に SSH で接続する
+  - https://docs.github.com/ja/github/authenticating-to-github/connecting-to-github-with-ssh
+- インストールしたアプリの個別設定
 
 ## 参考
 
-- Vscode
-  - [Vscode version 確認](https://code.visualstudio.com/updates/v1_43)
-- iterm
-  - [iterm(hotkey が効かない時)](https://www.smartbowwow.com/2018/11/mojaveiterm2hot-key.html)
+- iterm2(hotkey が効かない時)
+  - https://www.smartbowwow.com/2018/11/mojaveiterm2hot-key.html
 - HHKB(key 配置変更アプリ)
   - https://happyhackingkb.com/jp/download/
+
+## 移行状況
+
+`old/` に chezmoi 移行前の旧構成(git 設定、vimrc、VSCode 設定、macos/setup.sh など)が残っている。順次 chezmoi ソース形式へ移行予定。

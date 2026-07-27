@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+{{ if eq .chezmoi.os "darwin" }}
+
+# インストール済みなら何もしない(Xcode CLT はインストーラが自動導入する)
+if [ -x /opt/homebrew/bin/brew ]; then
+	exit 0
+fi
+
+echo "Installing Homebrew..."
+NONINTERACTIVE=1 /bin/bash -c \
+	"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+{{ end }}

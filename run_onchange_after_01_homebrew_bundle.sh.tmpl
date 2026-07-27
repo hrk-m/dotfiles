@@ -1,0 +1,13 @@
+#!/bin/sh
+# Brewfile が変更されたら chezmoi apply 時に再実行される
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+set -eu
+
+{{ if eq .chezmoi.os "darwin" }}
+
+# run_once_before で Homebrew インストール済み、PATH に追加
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+brew bundle --file "$HOME/Brewfile"
+
+{{ end }}
