@@ -9,6 +9,12 @@ if [ -x /opt/homebrew/bin/brew ]; then
 fi
 
 echo "Installing Homebrew..."
+
+# NONINTERACTIVE ではインストーラが sudo をプロンプトできず
+# 「Need sudo access」で即失敗するため、先に認証してキャッシュを作っておく
+# (管理者アカウントで実行すること)
+sudo -v
+
 NONINTERACTIVE=1 /bin/bash -c \
 	"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
