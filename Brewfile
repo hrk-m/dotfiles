@@ -27,6 +27,7 @@ brew 'tree'
 brew 'typos-cli'
 brew 'watch'
 brew 'yarn'
+brew 'bun'
 
 # GUI アプリ
 # cask '1password'
