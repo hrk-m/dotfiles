@@ -30,7 +30,7 @@ brew bundle cleanup --file ~/Brewfile
 chezmoi のファイル名規約がそのまま実行順序・挙動を決める:
 
 - `run_once_before_00_install_homebrew.sh.tmpl` — apply 時に**一度だけ**、dotfiles 配置**前**に実行。Xcode CLT と Homebrew をインストールする(Apple Silicon 前提で `/opt/homebrew` 決め打ち)。
-- `run_onchange_after_01_homebrew_bundle.sh.tmpl` — dotfiles 配置**後**に実行。スクリプト内に `{{ include "Brewfile" | sha256sum }}` で Brewfile のハッシュを埋め込んでおり、**Brewfile を変更するとハッシュが変わって次回 apply 時に `brew bundle` が自動再実行される**仕組み。冒頭で `sudo -v` + キープアライブループにより sudo 認証を1回で済ませる(cask の pkg インストーラ対策)。
+- `run_onchange_after_01_homebrew_bundle.sh.tmpl` — dotfiles 配置**後**に実行。スクリプト内に `{{ include "Brewfile" | sha256sum }}` で Brewfile のハッシュを埋め込んでおり、**Brewfile を変更するとハッシュが変わって次回 apply 時に `brew bundle` が自動再実行される**仕組み。brew は起動時に `sudo --reset-timestamp` で認証キャッシュを破棄するため事前の `sudo -v` は効かず、sudo が必要な cask があると実行中に1回パスワードを聞かれる(仕様として許容)。
 - `.chezmoiignore` — `old/`・`README.md`・`CLAUDE.md` はホームへ配置しない。**リポジトリ用ドキュメントを追加したら必ずここにも追加する**(忘れるとホームに配置される)。
 - `.chezmoi.toml.tmpl` — chezmoi 設定のテンプレート(diff から scripts を除外)。
 - `Brewfile` — ホームの `~/Brewfile` として配置され、上記 run_onchange スクリプトから参照される。
