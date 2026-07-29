@@ -52,6 +52,15 @@ chezmoi apply --source .
 
 Brewfile にパッケージを追加したら `chezmoi apply` で `brew bundle` が自動実行される。
 
+## マシン固有・秘匿設定
+
+fish は `~/.config/fish/conf.d/*.fish` をすべて自動で読み込むため、API キー等のマシン固有・秘匿設定は chezmoi 管理外のファイルとして直接置く(zsh の `~/.zshrc.local` 相当):
+
+```fish
+# ~/.config/fish/conf.d/local_secrets.fish(リポジトリにはコミットしない)
+set -gx SOME_API_KEY xxxx
+```
+
 ## 手動で行う初期設定
 
 - macOS のソフトウェアアップデート
