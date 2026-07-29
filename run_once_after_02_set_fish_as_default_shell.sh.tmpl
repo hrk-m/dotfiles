@@ -1,0 +1,26 @@
+#!/bin/sh
+# fish をログインシェルに設定する(新マシンで一度だけ実行)
+# run_onchange_after_01 の brew bundle で fish がインストール済みであること
+set -eu
+
+{{ if eq .chezmoi.os "darwin" }}
+
+FISH=/opt/homebrew/bin/fish
+
+if [ ! -x "$FISH" ]; then
+  echo "fish が見つからないためスキップ: $FISH" >&2
+  exit 0
+fi
+
+# chsh は /etc/shells に登録されたシェルしか受け付けない
+if ! grep -qx "$FISH" /etc/shells; then
+  echo "$FISH を /etc/shells に追加します(sudo パスワードを聞かれます)"
+  echo "$FISH" | sudo tee -a /etc/shells > /dev/null
+fi
+
+if [ "$(dscl . -read "/Users/$USER" UserShell | awk '{print $2}')" != "$FISH" ]; then
+  echo "ログインシェルを fish に変更します"
+  sudo chsh -s "$FISH" "$USER"
+fi
+
+{{ end }}
