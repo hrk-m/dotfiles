@@ -31,7 +31,9 @@ chezmoi のファイル名規約がそのまま実行順序・挙動を決める
 
 - `run_once_before_00_install_homebrew.sh.tmpl` — apply 時に**一度だけ**、dotfiles 配置**前**に実行。Xcode CLT と Homebrew をインストールする(Apple Silicon 前提で `/opt/homebrew` 決め打ち)。
 - `run_onchange_after_01_homebrew_bundle.sh.tmpl` — dotfiles 配置**後**に実行。スクリプト内に `{{ include "Brewfile" | sha256sum }}` で Brewfile のハッシュを埋め込んでおり、**Brewfile を変更するとハッシュが変わって次回 apply 時に `brew bundle` が自動再実行される**仕組み。brew は起動時に `sudo --reset-timestamp` で認証キャッシュを破棄するため事前の `sudo -v` は効かず、sudo が必要な cask があると実行中に1回パスワードを聞かれる(仕様として許容)。
-- `.chezmoiignore` — `old/`・`README.md`・`CLAUDE.md` はホームへ配置しない。**リポジトリ用ドキュメントを追加したら必ずここにも追加する**(忘れるとホームに配置される)。
+- `run_once_after_02_set_fish_as_default_shell.sh.tmpl` — fish をログインシェルに設定(/etc/shells への追記と chsh に sudo が必要)。
+- `run_once_after_03_setup_github_ssh.sh.tmpl` — GitHub 公式ホスト鍵(api.github.com/meta の値をスクリプトに固定で記載)を known_hosts に追記し、SSH 鍵が1つもなければ ed25519 鍵をパスフレーズなしで生成。gh 認証済みなら `gh ssh-key add` で GitHub 登録、未認証なら手順を表示。**run_once スクリプトは内容を変更すると次回 apply で再実行される**ため、冪等に書くこと(このスクリプトは既存環境では no-op)。
+- `.chezmoiignore` — `old/`・`README.md`・`CLAUDE.md`・`docs/` はホームへ配置しない。**リポジトリ用ドキュメントを追加したら必ずここにも追加する**(忘れるとホームに配置される)。
 - `.chezmoi.toml.tmpl` — chezmoi 設定のテンプレート(diff から scripts を除外)。
 - `Brewfile` — ホームの `~/Brewfile` として配置され、上記 run_onchange スクリプトから参照される。
 
@@ -45,7 +47,7 @@ chezmoi のファイル名規約がそのまま実行順序・挙動を決める
 
 ## 移行状況
 
-`old/` には chezmoi 移行前の旧構成(git 設定、vimrc、VSCode 設定、macos/setup.sh、シンボリックリンク方式の旧 README)が残っている。これらは順次 chezmoi ソース形式(`dot_gitconfig` 等)へ移行する予定の未移行資産であり、参照はするが新規変更は加えない。
+`old/` には chezmoi 移行前の旧構成(vimrc、VSCode 設定、macos/setup.sh、シンボリックリンク方式の旧 README)が残っている。これらは順次 chezmoi ソース形式へ移行する予定の未移行資産であり、参照はするが新規変更は加えない。git 設定は `private_dot_gitconfig`(ghq.root 含む、600 権限)・`dot_gitignore_global` として移行済み。**git のグローバル設定を変えるときは `git config --global` ではなくソース側を編集して apply する**(直接変えると次の apply で消える)。
 
 ## 注意点
 

@@ -1,0 +1,48 @@
+#!/bin/sh
+# GitHub への SSH 接続を準備する(新マシンで一度だけ実行)
+# 1. GitHub 公式ホスト鍵を known_hosts に登録(初回接続の yes/no プロンプトをなくす)
+# 2. SSH 鍵がなければ ed25519 で生成し、gh 認証済みなら GitHub に公開鍵を登録する
+set -eu
+
+{{ if eq .chezmoi.os "darwin" }}
+
+SSH_DIR="$HOME/.ssh"
+KNOWN_HOSTS="$SSH_DIR/known_hosts"
+
+mkdir -p "$SSH_DIR"
+chmod 700 "$SSH_DIR"
+touch "$KNOWN_HOSTS"
+
+# GitHub 公式ホスト鍵(https://api.github.com/meta の ssh_keys)
+# ssh-keyscan は接続先を無検証で信じるため使わず、公開されている鍵を固定で持つ
+while IFS= read -r key; do
+  if ! grep -qF "$key" "$KNOWN_HOSTS"; then
+    echo "github.com $key" >> "$KNOWN_HOSTS"
+    echo "known_hosts に GitHub のホスト鍵を追加: ${key%% *}"
+  fi
+done <<'EOF'
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
+EOF
+
+# 既に鍵があるマシン(このマシンの id_rsa 等)では何もしない
+if [ -f "$SSH_DIR/id_ed25519" ] || [ -f "$SSH_DIR/id_rsa" ]; then
+  exit 0
+fi
+
+echo "GitHub 用の SSH 鍵を生成します"
+ssh-keygen -t ed25519 -C "haruki.miyagi11@gmail.com" -f "$SSH_DIR/id_ed25519" -N ""
+
+if command -v gh > /dev/null 2>&1 && gh auth status > /dev/null 2>&1; then
+  gh ssh-key add "$SSH_DIR/id_ed25519.pub" --title "$(hostname)"
+  echo "GitHub に公開鍵を登録しました: $(hostname)"
+else
+  echo "gh が未認証のため、公開鍵の登録は手動で行ってください:" >&2
+  echo "  gh auth login   # Git protocol で SSH を選ぶと、この鍵をその場で登録できる(推奨)" >&2
+  echo "  login 時に登録しなかった場合のみ:" >&2
+  echo "  gh ssh-key add ~/.ssh/id_ed25519.pub --title \"$(hostname)\"" >&2
+  echo "  (スコープ不足で失敗したら: gh auth refresh -s admin:public_key)" >&2
+fi
+
+{{ end }}
