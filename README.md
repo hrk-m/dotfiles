@@ -16,8 +16,18 @@ macOS 用の dotfiles を [chezmoi](https://www.chezmoi.io/) で管理するリ�
 # chezmoi のインストールと init --apply を一発で実行
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply hrk-m
 
-# GitHub CLI の認証(Git protocol は SSH を選ぶと、生成済みの鍵をその場で登録できる)
+# GitHub CLI の認証。Git protocol は必ず SSH を選ぶ(生成済みの鍵をその場で登録できる)
 gh auth login
+
+# 接続確認(「Hi hrk-m!」が出れば成功)
+ssh -T git@github.com
+```
+
+`gh auth login` で誤って HTTPS を選ぶと SSH 鍵が登録されない(トークンに `admin:public_key` スコープも付かない)。その場合は:
+
+```bash
+gh auth refresh -h github.com -s admin:public_key
+gh ssh-key add ~/.ssh/id_ed25519.pub --title "$(hostname)"
 ```
 
 chezmoi インストール済みなら:
