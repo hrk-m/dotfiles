@@ -1,0 +1,2 @@
+# get.chezmoi.io のインストーラが生成する chezmoi バイナリ(誤コミット防止)
+bin/
