@@ -34,22 +34,27 @@ fi
 echo "GitHub 用の SSH 鍵を生成します"
 ssh-keygen -t ed25519 -C "haruki.miyagi11@gmail.com" -f "$SSH_DIR/id_ed25519" -N ""
 
+# 手動登録の手順(リカバリ案内はここ1箇所に集約する)
+print_register_steps() {
+  echo "  gh ssh-key add ~/.ssh/id_ed25519.pub --title \"$(hostname)\"" >&2
+  echo "  (スコープ不足で失敗する場合は先に: gh auth refresh -h github.com -s admin:public_key)" >&2
+}
+
 if command -v gh > /dev/null 2>&1 && gh auth status > /dev/null 2>&1; then
-  # HTTPS プロトコルでログインしたトークンには admin:public_key スコープがなく失敗するため、
-  # 失敗してもスクリプトは止めずリカバリ手順を表示する
   if gh ssh-key add "$SSH_DIR/id_ed25519.pub" --title "$(hostname)"; then
     echo "GitHub に公開鍵を登録しました: $(hostname)"
   else
-    echo "公開鍵の登録に失敗しました。以下でリカバリしてください:" >&2
-    echo "  gh auth refresh -h github.com -s admin:public_key" >&2
-    echo "  gh ssh-key add ~/.ssh/id_ed25519.pub --title \"$(hostname)\"" >&2
+    # 握りつぶすと chezmoi がこのスクリプトを完了扱いにして鍵が未登録のまま残るため、
+    # 明示的に失敗させて apply の結果に出す(原因は直前の gh のエラー出力を見る)
+    echo "公開鍵の登録に失敗しました。原因を解消してから手動で登録してください:" >&2
+    print_register_steps
+    exit 1
   fi
 else
   echo "gh が未認証のため、公開鍵の登録は手動で行ってください:" >&2
   echo "  gh auth login   # Git protocol で SSH を選ぶと、この鍵をその場で登録できる(推奨)" >&2
   echo "  login 時に登録しなかった場合のみ:" >&2
-  echo "  gh ssh-key add ~/.ssh/id_ed25519.pub --title \"$(hostname)\"" >&2
-  echo "  (スコープ不足で失敗したら: gh auth refresh -s admin:public_key)" >&2
+  print_register_steps
 fi
 
 {{ end }}

@@ -30,6 +30,8 @@ gh auth refresh -h github.com -s admin:public_key
 gh ssh-key add ~/.ssh/id_ed25519.pub --title "$(hostname)"
 ```
 
+※ 鍵のパスは環境に合わせる。`id_ed25519` はセットアップスクリプトが生成した場合の名前で、既存の鍵があるマシン(例: `id_rsa` のみ)ではスクリプトは生成をスキップするため、`~/.ssh/id_rsa.pub` など実在する公開鍵を指定する。
+
 chezmoi インストール済みなら:
 
 ```bash
