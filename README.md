@@ -5,7 +5,7 @@ macOS 用の dotfiles を [chezmoi](https://www.chezmoi.io/) で管理するリ�
 `chezmoi apply` すると以下が自動で行われる:
 
 1. `run_once_before_00_install_homebrew.sh` — Homebrew 未インストールなら自動インストール(初回のみ)
-2. dotfiles をホームディレクトリへ配置(`.gitconfig`・`.gitignore_global`・fish 設定・`Brewfile` → `~/Brewfile` など)
+2. dotfiles をホームディレクトリへ配置(`.zshrc`・`.gitconfig`・`.gitignore_global`・fish 設定・`Brewfile` → `~/Brewfile` など)
 3. `run_onchange_after_01_homebrew_bundle.sh` — `brew bundle` でパッケージをインストール(Brewfile 変更時のみ再実行)
 4. `run_once_after_02_set_fish_as_default_shell.sh` — fish をログインシェルに設定(初回のみ)
 5. `run_once_after_03_setup_github_ssh.sh` — GitHub のホスト鍵を known_hosts に登録し、SSH 鍵がなければ生成(初回のみ)
