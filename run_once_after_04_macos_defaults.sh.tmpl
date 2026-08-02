@@ -1,0 +1,73 @@
+#!/bin/sh
+# macOS の defaults 設定(新マシンで一度だけ実行)
+set -eu
+
+{{ if eq .chezmoi.os "darwin" }}
+
+# Dock
+defaults write com.apple.dock persistent-apps -array              # Dock からすべてのアプリを除去
+defaults write com.apple.dock "tilesize" -int "36"               # アイコンサイズを 36px に
+defaults write com.apple.dock "orientation" -string "right"      # Dock を右側に配置
+defaults write com.apple.dock autohide -bool true                 # Dock を自動的に隠す
+defaults write com.apple.dock "show-recents" -bool "false"       # 最近使ったアプリを非表示
+defaults write com.apple.dock "mineffect" -string "scale"        # しまうときのアニメーションをスケールに
+defaults write com.apple.dock "mru-spaces" -bool "false"         # 使用頻度でデスクトップを並び替えない
+killall Dock
+
+# Screenshot
+defaults write com.apple.screencapture "type" -string "jpg"                       # 保存形式を JPG に
+
+# Finder
+defaults write NSGlobalDomain "AppleShowAllExtensions" -bool "true"    # 拡張子を常に表示
+defaults write com.apple.Finder "AppleShowAllFiles" -bool "true"       # 隠しファイルを表示
+defaults write com.apple.finder ShowPathbar -bool "true"               # パスバーを表示
+defaults write com.apple.LaunchServices LSQuarantine -bool "false"     # 未確認ファイルを開くときの警告を無効化
+defaults write com.apple.finder WarnOnEmptyTrash -bool "false"         # ゴミ箱を空にするときの確認ダイアログを無効化
+killall Finder
+
+# Feedback
+defaults write com.apple.appleseed.FeedbackAssistant "Autogather" -bool "false"  # フィードバックの自動収集を無効化
+defaults write com.apple.CrashReporter DialogType -string "none"                  # クラッシュレポートのダイアログを無効化
+
+# .DS_Store
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool "true"   # ネットワークドライブへの .DS_Store 生成を抑制
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool "true"       # USB ドライブへの .DS_Store 生成を抑制
+
+# Battery
+defaults write com.apple.menuextra.battery ShowPercent -string "YES"  # メニューバーにバッテリー残量(%)を表示
+
+# Trackpad
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool "true"                    # タップでクリックを有効化(内蔵)
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool "true"   # タップでクリックを有効化(Bluetooth)
+defaults -currentHost write -g com.apple.mouse.tapBehavior -bool "true"                   # タップでクリックをシステム全体に反映
+defaults write -g com.apple.trackpad.scaling 3                                             # トラックパッドの軌跡速度を 3 に
+defaults write -g com.apple.swipescrolldirection -bool "true"                             # スクロール方向をナチュラルに
+
+# Mouse
+defaults write -g com.apple.mouse.scaling 3          # マウスの軌跡速度を 3 に
+defaults write -g com.apple.scrollwheel.scaling 5    # スクロールホイールの速度を 5 に
+
+# Keyboard
+defaults write NSGlobalDomain KeyRepeat -int 1           # キーリピートの速度を最速に
+defaults write NSGlobalDomain InitialKeyRepeat -int 17   # キーリピート開始までの時間を短く
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3 # フルキーボードアクセスを有効化(Tab ですべての UI 要素を操作可能)
+
+# 内蔵キーボードの CapsLock を Control にリマップ
+keyboard_id="$(ioreg -c AppleEmbeddedKeyboard -r | grep -Eiw "VendorID|ProductID" | awk '{ print $4 }' | paste -s -d'-\n' -)-0"
+defaults -currentHost write -g com.apple.keyboard.modifiermapping.${keyboard_id} -array-add "
+<dict>
+  <key>HIDKeyboardModifierMappingDst</key>\
+  <integer>30064771300</integer>\
+  <key>HIDKeyboardModifierMappingSrc</key>\
+  <integer>30064771129</integer>\
+</dict>
+"
+
+# Security
+sudo defaults write /Library/Preferences/com.Apple.alf globalstate -int 1  # ファイアウォールを有効化
+
+# Others
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool "false"      # 自動で先頭を大文字にしない
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool "false"  # 自動スペル修正を無効化
+
+{{ end }}
