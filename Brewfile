@@ -2,7 +2,7 @@
 tap 'dimentium/autoraise'
 
 # CLI ツール
-# brew 'aicommit'
+brew 'aicommit'
 brew 'awscli'
 brew 'chezmoi'
 brew 'direnv'
