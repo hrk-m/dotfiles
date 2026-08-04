@@ -8,10 +8,15 @@ set -eu
 defaults write com.apple.dock persistent-apps -array              # Dock からすべてのアプリを除去
 defaults write com.apple.dock "tilesize" -int "36"               # アイコンサイズを 36px に
 defaults write com.apple.dock "orientation" -string "right"      # Dock を右側に配置
-defaults write com.apple.dock autohide -bool true                 # Dock を自動的に隠す
-defaults write com.apple.dock "show-recents" -bool "false"       # 最近使ったアプリを非表示
-defaults write com.apple.dock "mineffect" -string "scale"        # しまうときのアニメーションをスケールに
-defaults write com.apple.dock "mru-spaces" -bool "false"         # 使用頻度でデスクトップを並び替えない
+defaults write com.apple.dock autohide -bool true                        # Dock を自動的に隠す
+defaults write com.apple.dock autohide-delay -float 0                    # 自動非表示のホバー遅延をゼロに
+defaults write com.apple.dock autohide-time-modifier -float 0.5          # 出し入れアニメーション時間を 0.5 秒に
+defaults write com.apple.dock launchanim -bool false                     # アプリ起動時のバウンドアニメーションを無効化
+defaults write com.apple.dock no-bouncing -bool true                     # 通知時のアイコンバウンスを無効化
+defaults write com.apple.dock showhidden -bool true                      # 非表示アプリのアイコンを半透明で表示
+defaults write com.apple.dock "show-recents" -bool "false"              # 最近使ったアプリを非表示
+defaults write com.apple.dock "mineffect" -string "scale"               # しまうときのアニメーションをスケールに
+defaults write com.apple.dock "mru-spaces" -bool "false"                # 使用頻度でデスクトップを並び替えない
 killall Dock
 
 # Screenshot
@@ -23,6 +28,8 @@ defaults write com.apple.Finder "AppleShowAllFiles" -bool "true"       # 隠し�
 defaults write com.apple.finder ShowPathbar -bool "true"               # パスバーを表示
 defaults write com.apple.LaunchServices LSQuarantine -bool "false"     # 未確認ファイルを開くときの警告を無効化
 defaults write com.apple.finder WarnOnEmptyTrash -bool "false"         # ゴミ箱を空にするときの確認ダイアログを無効化
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"        # デフォルト検索をカレントフォルダ内に限定
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false  # 拡張子変更時の確認ダイアログを無効化
 killall Finder
 
 # Feedback
@@ -63,11 +70,22 @@ defaults -currentHost write -g com.apple.keyboard.modifiermapping.${keyboard_id}
 </dict>
 "
 
+# Terminal
+defaults write com.apple.terminal StringEncodings -array 4  # 文字コードを UTF-8 に固定
+
+# TextEdit
+defaults write com.apple.TextEdit RichText -int 0                          # デフォルトをプレーンテキストモードに
+defaults write com.apple.TextEdit PlainTextEncoding -int 4                 # 開く文字コードを UTF-8 に
+defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4         # 保存の文字コードを UTF-8 に
+
 # Security
 sudo defaults write /Library/Preferences/com.Apple.alf globalstate -int 1  # ファイアウォールを有効化
 
 # Others
-defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool "false"      # 自動で先頭を大文字にしない
-defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool "false"  # 自動スペル修正を無効化
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool "false"       # 自動で先頭を大文字にしない
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool "false"   # 自動スペル修正を無効化
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool "false"     # スマートダッシュを無効化
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool "false"   # スペース2回でピリオドに変換しない
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool "false"    # スマートクォートを無効化
 
 {{ end }}
