@@ -1,0 +1,158 @@
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+
+#################################
+## PATH
+#################################
+export GOPATH=$HOME/go
+export PATH=~/bin:$PATH
+export PATH=$PATH:$GOPATH/bin
+export PATH=/usr/local/bin:$PATH
+
+# シェドンを使用してパッケージを管理(Brewfile ではコメントアウト中のため未インストールならスキップ)
+command -v sheldon >/dev/null && eval "$(sheldon source)"
+
+# fzf
+source <(fzf --zsh)
+
+# asdf (0.16+ の Go 版は asdf.sh が廃止され shims を PATH に足す方式)
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# direnvを使用して環境変数を管理
+eval "$(direnv hook zsh)"
+
+# Android SDK
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# カレントディレクトリを保持する設定
+if [ -n "$ZSH_VERSION" ]; then
+  autoload -Uz add-zsh-hook
+  add-zsh-hook chpwd () {
+    echo $PWD > ~/.last_dir
+  }
+  if [ -f ~/.last_dir ]; then
+    cd "$(cat ~/.last_dir)" && true
+  fi
+fi
+
+# 検証
+export PATH="$HOME/.bun/bin:$PATH"
+
+#################################
+## alias settings
+#################################
+
+# alias aic='aicommit -c "https://qiita.com/itosho/items/9565c6ad2ffc24c09364 を参考にコミットメッセージを作成してください。日本語で答えて。また参照したQiitaのの記事のことは触れないでください。" -d'
+alias aic='aicommit -c "https://qiita.com/itosho/items/9565c6ad2ffc24c09364 を参考にコミットメッセージを作成してください。日本語で答えて。また参照したQiitaの記事のことは触れないでください。コミットタイプは以下を使用してください: fix：バグ修正、add：新規（ファイル）機能追加、update：機能修正（バグではない）、remove：削除（ファイル）" -d'
+
+# Directories
+alias '..'='cd ..'
+alias '...'='cd ../..'
+alias '....'='cd ../../..'
+alias '.....'='cd ../../../..'
+
+alias desk='cd ~/Desktop'
+alias ls='ls -a'
+alias lp='pwd && ls'
+alias code='code .'
+alias c='cursor .'
+alias cursor='cursor .'
+
+# Git
+alias g='git'
+alias add='git add'
+alias commit='git commit'
+alias checkout='git checkout'
+alias branch='git branch'
+alias push='git push'
+alias pull='git pull'
+
+alias ginit='git commit -m "initial commit" --allow-empty'
+alias gstash='git stash pop stash@{0}'
+alias m='git checkout master'
+alias mp='git checkout master && git pull'
+alias mmp='git checkout main && git pull'
+alias dp='git checkout develop && git pull'
+alias uncommit='git log -1 && git reset HEAD^1'
+alias amend='git commit --amend'
+
+# tig
+alias s='tig status'
+alias t='tig'
+
+# Rails
+alias be='bundle exec'
+alias rs='bundle exec rails s'
+alias rc='bundle exec rails c'
+alias spec='bundle exec rspec'
+
+# Network Related
+alias ip="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print \$1'"
+
+## 過去に移動したことのあるディレクトリを選択。ctrl-gにバインド
+cd_git_repo() {
+  local selected="$(ghq list | fzf)"
+
+  if [[ -n "$selected" ]]; then
+    cd "$(ghq root)/$selected"
+  fi
+}
+bindkey -s '^g' 'cd_git_repo\n'
+
+# codei で node_modules は無視してファイルを開く
+function codei() {
+    selected_file=$(find ~ -type d -name 'node_modules' -prune -o -type f -print | fzf)
+    [ -n "$selected_file" ] && code "$selected_file"
+}
+
+#################################
+# プロンプトのカスタマイズ
+#################################
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+
+# Git の状態を表示するための設定
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "●"
+zstyle ':vcs_info:git:*' unstagedstr "✚"
+zstyle ':vcs_info:*' formats '%F{196}(%b)%f%c%u'
+zstyle ':vcs_info:*' actionformats '%F{magenta}(%b|%a)%f%c%u'
+
+# プロンプトの設定
+setopt PROMPT_SUBST
+# ~からのディレクトリパスを全表示
+# PROMPT='%F{123}%~%f ${vcs_info_msg_0_} %F{red}❯%F{yellow}❯%F{green}❯%f '
+# カレントディレクトリと一つ前のディレクトリのみ表示
+PROMPT='%F{123}%2~%f ${vcs_info_msg_0_} %F{red}❯%F{yellow}❯%F{green}❯%f '
+
+#################################
+# その他
+#################################
+
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+export PATH=$PATH:$HOME/.maestro/bin
+
+# Added by Antigravity
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+
+
+# Claude template tools
+export PATH="$HOME/.local/bin:$PATH"
+
+# rbenv (asdf より後ろに置き shim を優先させる)
+command -v rbenv >/dev/null && eval "$(rbenv init - zsh)"
+
+# マシン固有・秘匿設定(chezmoi 管理外)。APIキー等はここに置く
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

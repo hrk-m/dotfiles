@@ -2,3 +2,7 @@ old
 README.md
 CLAUDE.md
 docs
+
+# いまは含めない(fish 移行中のため。含める時はこの行を削除)
+.zshrc
+.config/mise
