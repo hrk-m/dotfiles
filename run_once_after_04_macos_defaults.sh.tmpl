@@ -43,6 +43,11 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool "true"      
 # Battery
 defaults write com.apple.menuextra.battery ShowPercent -string "YES"  # メニューバーにバッテリー残量(%)を表示
 
+# Clock
+defaults write com.apple.menuextra.clock ShowDate -int 1         # メニューバーの時計に日付を常に表示
+defaults write com.apple.menuextra.clock ShowSeconds -bool true  # メニューバーの時計に秒を表示
+killall ControlCenter
+
 # Trackpad
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool "true"                    # タップでクリックを有効化(内蔵)
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool "true"   # タップでクリックを有効化(Bluetooth)
