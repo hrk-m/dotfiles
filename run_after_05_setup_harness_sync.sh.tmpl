@@ -1,0 +1,7 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# harness-sync のセットアップ(SessionEnd hook 登録・ヘッドレス権限・データディレクトリ)。
+# install.sh は冪等かつ軽量なので毎 apply 実行する(run_once/run_onchange にしないのは、
+# 初回 apply 時に ~/src 未配置でスキップされた場合に次の apply で自動回収させるため)。
+exec "$HOME/.claude/skills/harness-sync/install.sh"
+{{ end -}}
