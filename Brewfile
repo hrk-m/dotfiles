@@ -1,5 +1,6 @@
 # taps
 tap 'dimentium/autoraise'
+tap 'kayac/tap'
 
 # CLI ツール
 brew 'aicommit'
@@ -19,7 +20,6 @@ brew 'mise'
 brew 'mysql'
 # brew 'ollama'
 # brew 'plantuml'
-# brew 'pnpm'
 # brew 'rbenv'  # mise に一本化(2026-07)
 brew 'rtk'
 # brew 'sheldon'
@@ -28,8 +28,15 @@ brew 'tig'
 brew 'tree'
 brew 'typos-cli'
 brew 'watch'
-brew 'yarn'
-brew 'bun'
+# brew 'yarn'
+# brew 'bun'
+# brew 'pnpm'
+brew 'cmake'
+brew 'devcontainer'
+brew 'kayac/tap/ecspresso', trusted: true
+brew 'libpq'
+brew 'poppler'
+brew 'yq'
 
 # GUI アプリ
 # cask '1password'
@@ -62,3 +69,10 @@ cask 'slack'
 # cask 'visual-studio-code'
 # cask 'warp'
 cask 'zoom'
+cask '1password-cli'
+cask 'amical'
+cask 'cursor-cli'
+cask 'devin-cli'
+cask 'gcloud-cli'
+cask 'macshot'
+cask 'session-manager-plugin'

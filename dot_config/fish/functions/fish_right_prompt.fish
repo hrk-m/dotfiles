@@ -114,14 +114,7 @@ function fish_right_prompt
 
     set_color -o
 
-    if test -n "$branch"
-        if test $branch_detached -ne 0
-            set_color D2A6FF
-        else
-            set_color C2D94C
-        end
-        echo -n " $branch"
-    end
+    # NOTE: branch name is rendered by fish_prompt (left prompt)
     if test -n "$commit"
         echo -n ' '(set_color FFB454)"$commit"
     end
