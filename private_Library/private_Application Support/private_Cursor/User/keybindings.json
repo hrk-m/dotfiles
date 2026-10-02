@@ -1,0 +1,12 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+    {
+        "key": "cmd+o",
+        "command": "workbench.action.quickOpen",
+        "args": ">"
+    },
+    {
+        "key": "cmd+u cmd+u",
+        "command": "workbench.files.action.collapseExplorerFolders"
+    },
+]

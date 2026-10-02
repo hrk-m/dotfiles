@@ -1,0 +1,12 @@
+adamraichu.pdf-viewer
+anysphere.remote-containers
+anysphere.remote-ssh
+bung87.rails
+castwide.solargraph
+cweijan.vscode-office
+kaiwood.endwise
+ms-ceintl.vscode-language-pack-ja
+oderwat.indent-rainbow
+rubocop.vscode-rubocop
+shopify.ruby-lsp
+sianglim.slim

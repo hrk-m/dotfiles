@@ -1,0 +1,23 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+# extensions.txt hash: {{ include "dot_config/cursor/extensions.txt" | sha256sum }}
+# ~/.config/cursor/extensions.txt に列挙された Cursor 拡張のうち未インストールのものを入れる。
+set -eu
+
+LIST="$HOME/.config/cursor/extensions.txt"
+if ! command -v cursor >/dev/null 2>&1; then
+  echo "cursor CLI が見つからないため拡張のインストールをスキップ"
+  exit 0
+fi
+[ -f "$LIST" ] || exit 0
+
+installed=$(cursor --list-extensions | tr '[:upper:]' '[:lower:]')
+grep -vE '^[[:space:]]*(#|$)' "$LIST" | while read -r ext; do
+  lower=$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')
+  if printf '%s\n' "$installed" | grep -qxF "$lower"; then
+    echo "already installed: $ext"
+  else
+    cursor --install-extension "$ext"
+  fi
+done
+{{ end -}}

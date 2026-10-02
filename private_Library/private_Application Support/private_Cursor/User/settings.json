@@ -1,0 +1,5 @@
+{
+    "window.autoDetectColorScheme": true,
+    "security.promptForLocalFileProtocolHandling": false,
+    "workbench.preferredLightColorTheme": "Visual Studio Dark"
+}
