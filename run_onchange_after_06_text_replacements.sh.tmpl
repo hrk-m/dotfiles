@@ -1,0 +1,50 @@
+#!/bin/sh
+# .chezmoidata/text_replacements.yaml が変更されたら chezmoi apply 時に再実行される
+# textReplacements hash: {{ .textReplacements | toJson | sha256sum }}
+set -eu
+
+{{ if eq .chezmoi.os "darwin" }}
+
+DB="${TEXT_REPLACEMENTS_DB:-$HOME/Library/KeyboardServices/TextReplacements.db}"
+
+if [ ! -f "$DB" ]; then
+  echo "warning: テキスト置換 DB が見つからないためスキップします: $DB" >&2
+  exit 0
+fi
+
+# マネージド外のエントリは削除しない(追加・更新のみ)。
+# Core Data 時刻 = 2001-01-01 基準の秒(julianday 2451910.5 が基準)。
+# 新規 PK は Z_PRIMARYKEY(Z_ENT=1) の Z_MAX と実在 MAX(Z_PK) の大きい方 + 1 とし、Z_MAX を追随させる。
+sqlite3 "$DB" <<'SQL'
+.timeout 5000
+BEGIN IMMEDIATE;
+{{- range .textReplacements }}
+UPDATE ZTEXTREPLACEMENTENTRY
+   SET ZPHRASE = '{{ .phrase | replace "'" "''" }}',
+       ZSHORTCUT = '{{ .shortcut | replace "'" "''" }}',
+       ZWASDELETED = 0,
+       ZNEEDSSAVETOCLOUD = 1,
+       Z_OPT = COALESCE(Z_OPT, 0) + 1,
+       ZTIMESTAMP = (julianday('now') - 2451910.5) * 86400.0
+ WHERE ZUNIQUENAME = '{{ .id | replace "'" "''" }}';
+INSERT INTO ZTEXTREPLACEMENTENTRY
+  (Z_PK, Z_ENT, Z_OPT, ZNEEDSSAVETOCLOUD, ZWASDELETED, ZTIMESTAMP, ZPHRASE, ZSHORTCUT, ZUNIQUENAME)
+SELECT
+  MAX(COALESCE((SELECT Z_MAX FROM Z_PRIMARYKEY WHERE Z_ENT = 1), 0),
+      COALESCE((SELECT MAX(Z_PK) FROM ZTEXTREPLACEMENTENTRY), 0)) + 1,
+  1, 1, 1, 0, (julianday('now') - 2451910.5) * 86400.0,
+  '{{ .phrase | replace "'" "''" }}', '{{ .shortcut | replace "'" "''" }}', '{{ .id | replace "'" "''" }}'
+WHERE NOT EXISTS (SELECT 1 FROM ZTEXTREPLACEMENTENTRY WHERE ZUNIQUENAME = '{{ .id | replace "'" "''" }}');
+UPDATE Z_PRIMARYKEY
+   SET Z_MAX = (SELECT MAX(Z_PK) FROM ZTEXTREPLACEMENTENTRY)
+ WHERE Z_ENT = 1 AND Z_MAX < (SELECT MAX(Z_PK) FROM ZTEXTREPLACEMENTENTRY);
+{{- end }}
+COMMIT;
+SQL
+
+# テスト用に DB パスを上書きしている場合は再読込しない
+if [ -z "${TEXT_REPLACEMENTS_DB:-}" ]; then
+  killall keyboardservicesd >/dev/null 2>&1 || true
+fi
+
+{{ end }}

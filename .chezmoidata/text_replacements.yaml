@@ -1,0 +1,12 @@
+# macOS テキスト置換(ユーザー辞書)。run_onchange_after_06_text_replacements.sh.tmpl が DB へ反映する。
+# id は ZUNIQUENAME(固定 UUID)。冪等性のため変更しないこと。
+textReplacements:
+  - shortcut: "アド"
+    phrase: "haruki.miyagi11@gmail.com"
+    id: "C5AA1E82-EB5F-4295-A64F-045A591A9A82"
+  - shortcut: "tes"
+    phrase: "tes"
+    id: "AB582DF0-9B70-4788-B0CC-831D06DE9F7F"
+  - shortcut: "test"
+    phrase: "test"
+    id: "2FC12D68-F381-4276-81E9-EF5C5B699066"
