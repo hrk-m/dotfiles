@@ -84,7 +84,9 @@ defaults write com.apple.TextEdit PlainTextEncoding -int 4                 # 開
 defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4         # 保存の文字コードを UTF-8 に
 
 # Security
-sudo defaults write /Library/Preferences/com.Apple.alf globalstate -int 1  # ファイアウォールを有効化
+firewall="/usr/libexec/ApplicationFirewall/socketfilterfw"
+sudo "$firewall" --setglobalstate on  # ファイアウォールを有効化
+sudo "$firewall" --setstealthmode on  # ICMP など未承諾の接続要求へ応答しない
 
 # Others
 defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool "false"       # 自動で先頭を大文字にしない
